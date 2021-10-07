@@ -1,23 +1,57 @@
-import logo from './logo.svg';
+import ReactDataTable from "react-data-table-component";
+import { useMemo, useCallback } from "react";
 import './App.css';
 
+const columns = [{
+  name: "c1",
+  selector: "c1"
+}];
+
+const data = [{
+  c1: "data",
+}];
+
+const SRC = (props) => {
+  console.log("SRC props", props);
+  return <div>check!</div>
+};
+
 function App() {
+  const onRowSelect = useCallback((...args) => {
+    console.log("useCallback ", args)
+  }, []);
+  const SRCProps = useMemo(() => ({
+    onSelect: onRowSelect,
+  }), [onRowSelect]);
+  const SRCProps2 = useMemo(() => ({
+    onSelect: onRowSelect,
+    onSelect2: onRowSelect,
+  }), [onRowSelect]);
+  const SRCProps3 = useMemo(() => ({
+    onSelect1: onRowSelect,
+    onSelect2: onRowSelect,
+    onSelect3: onRowSelect,
+  }), [onRowSelect]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ReactDataTable
+        columns={columns}
+        data={data}
+        selectableRows
+        selectableRowsComponent={SRC}
+        selectableRowsComponentProps={SRCProps} />
+      <ReactDataTable
+        columns={columns}
+        data={data}
+        selectableRows
+        selectableRowsComponent={SRC}
+        selectableRowsComponentProps={SRCProps2} />
+      <ReactDataTable
+        columns={columns}
+        data={data}
+        selectableRows
+        selectableRowsComponent={SRC}
+        selectableRowsComponentProps={SRCProps3} />
     </div>
   );
 }
